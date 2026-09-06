@@ -29,9 +29,10 @@ React, TypeScript, Vite, Framer Motion, Node.js tooling, and a lightweight JSONL
 ```bash
 npm install
 npm run dev
+npm run server
 ```
 
-Open the displayed local URL, select **Overview**, and choose **START RESCUE**. Navigate through the working sidebar to inspect context, tests, checkpoints, graph placeholder, and session history.
+Open the displayed local URL, select **Overview**, and choose **START RESCUE**. Navigate through the working sidebar to inspect context, tests, checkpoints, graph placeholder, and session history. The local transport exposes `/api/health`, SSE at `/api/events/stream`, ingestion at `/api/events`, and an allowlisted verification runner at `/api/verification/run`.
 
 ## Test and build
 
