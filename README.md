@@ -10,9 +10,15 @@ The intended user is a developer supervising AI-assisted software recovery. This
 
 ## Architecture
 
-`Original JSONL → parser → normalizer → lifecycle → SessionState → deterministic rescue playback → React UI → checkpoint context`
+`Original JSONL → format adapter → NormalizedEvent → lifecycle reducer → SessionState → deterministic rescue playback → React UI → checkpoint context`
 
-The initial fixture is the demonstration source of truth. UI data is reconstructed from it; the playback is explicitly labelled simulated.
+## Phase 2: session reconstruction
+
+The supplied original-format fixture is the demonstration source of truth. A constrained `originalFormatAdapter` owns all raw-shape detection; lifecycle and UI code consume `NormalizedEvent` only. This makes a future transcript adapter additive without coupling recovery behavior to its raw format.
+
+Valid-but-unrecognized original-format events are preserved as `unknown` events with a diagnostic count. Malformed JSON is recorded separately with a structured line diagnostic and later lines continue to process. A transcript that reaches EOF without `session_ended` retains its recovered state and is marked `PARTIAL`.
+
+Playback is deterministic and local: each tick reduces the next reconstructed normalized event into application state. It is not presented as an external agent connection.
 
 ## Stack
 
@@ -36,7 +42,7 @@ npm run build
 
 ## Current phase and limitations
 
-This is Phase 1 only. It supports a stable, original JSONL transcript representation and deterministic demo playback. The new Curveball transcript format, broad unknown/incomplete-event handling, graph impact analysis, production websocket transport, and remote Entire checkpoint IDs are intentionally not implemented.
+Phase 2 supports the known original format, unknown-event preservation, malformed-record diagnostics, incomplete-session recovery, and state-driven playback. The Noon Curveball format, graph impact analysis, production websocket transport, and remote Entire checkpoint IDs remain intentionally unimplemented.
 
 ## Future Curveball work
 

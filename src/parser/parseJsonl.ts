@@ -1,3 +1,4 @@
-import type { RawRecord } from './types';
-export interface ParseResult { records: RawRecord[]; errors: string[] }
-export function parseJsonl(input: string): ParseResult { const records: RawRecord[] = []; const errors: string[] = []; input.split(/\r?\n/).forEach((line, index) => { if (!line.trim()) return; try { const value: unknown = JSON.parse(line); if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('record must be an object'); records.push(value as RawRecord); } catch (error) { errors.push(`Line ${index + 1}: ${error instanceof Error ? error.message : 'invalid JSON'}`); } }); return { records, errors }; }
+import type { ParserDiagnostic, RawRecord } from './types';
+export interface ParsedRecord { record: RawRecord; line: number }
+export interface ParseResult { records: ParsedRecord[]; diagnostics: ParserDiagnostic[] }
+export function parseJsonl(input: string): ParseResult { const records: ParsedRecord[] = []; const diagnostics: ParserDiagnostic[] = []; input.split(/\r?\n/).forEach((line, index) => { if (!line.trim()) return; try { const value: unknown = JSON.parse(line); if (!value || typeof value !== 'object' || Array.isArray(value)) { diagnostics.push({ line:index + 1, errorType:'INVALID_RECORD', message:'JSONL record must be an object.' }); return; } records.push({ record:value as RawRecord, line:index + 1 }); } catch { diagnostics.push({ line:index + 1, errorType:'MALFORMED_JSON', message:'Unable to parse JSONL record.' }); } }); return { records, diagnostics }; }

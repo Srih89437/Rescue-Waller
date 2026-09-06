@@ -26,11 +26,19 @@ Implemented: responsive command-center UI; interactive navigation; original JSON
 
 Code Rescue currently assumes the agent transcript has a stable, known event representation. This assumption will be revisited when the Track 3 Curveball is introduced.
 
+## Phase 2 — Session Reconstruction
+
+Phase 2 introduces a format-adapter registry. The original adapter is the only supported adapter and recognizes the documented original JSONL marker and required session fields. It produces `NormalizedEvent`; lifecycle reduction has no dependency on raw transcript keys.
+
+The system distinguishes four cases: known events are reduced; valid unknown events are preserved with diagnostics; malformed JSON becomes a structured `MALFORMED_JSON` diagnostic and does not stop later records; an EOF without `session_ended` yields a `PARTIAL` session with its recovered files, tests, intent, and reasoning intact. Local deterministic playback applies one normalized event per update to the same reducer used for reconstruction.
+
+This prepares a clean insertion point for a future format adapter. It does not claim that the Noon Curveball has arrived or that Entire Graph analysis has been performed.
+
 ## Known Limitations
 
 - The new transcript format is not implemented yet.
-- Unknown-event handling will be expanded during Curveball.
-- Incomplete transcript handling will be expanded during Curveball.
+- The future Curveball format adapter is not implemented.
+- Graph impact analysis remains a later phase.
 - Graph impact analysis will be implemented in a later phase.
 - Playback is deterministic local simulation, not a live backend feed.
 

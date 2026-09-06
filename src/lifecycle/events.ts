@@ -1,12 +1,5 @@
-import type { EventType } from '../parser/types';
-export const rescueSteps: { type: EventType; title: string; description: string }[] = [
- { type:'session_started', title:'Incident detected', description:'Coupon validation failure reported from checkout-service.' },
- { type:'user_prompt', title:'Checkpoint context restored', description:'Recovered intent and recent working assumptions.' },
- { type:'agent_response', title:'Previous work reconstructed', description:'Validation flow and expected failure behavior recovered.' },
- { type:'file_read', title:'Files identified', description:'Mapped the affected checkout implementation and test coverage.' },
- { type:'tool_call', title:'Root cause investigation', description:'Tracing validation precedence for disabled and expired coupons.' },
- { type:'file_changed', title:'Fix prepared', description:'Corrected validation order with the smallest safe change.' },
- { type:'test_execution', title:'Tests running', description:'Executing focused coupon validation coverage.' },
- { type:'tool_result', title:'Verification passed', description:'Targeted checks completed successfully.' },
- { type:'checkpoint_created', title:'Checkpoint created', description:'Recovery reasoning recorded for the next agent.' },
-];
+import type { NormalizedEvent, RecoveryStage } from '../parser/types';
+import { stageFor } from './session';
+export interface RescueStep { event: NormalizedEvent; stage: RecoveryStage; title: string; description: string; }
+const labels: Record<string,string>={session_started:'Incident detected',user_prompt:'Checkpoint context restored',agent_response:'Reasoning recovered',tool_call:'Investigation started',tool_result:'Tool result received',file_read:'File inspected',file_changed:'Repair prepared',test_execution:'Tests running',checkpoint_created:'Checkpoint created',session_ended:'Recovery completed',unknown:'Unknown event preserved'};
+export function rescueSteps(events: NormalizedEvent[]): RescueStep[]{return events.map(event=>({event,stage:stageFor(event),title:labels[event.type]??'Event received',description:typeof event.data.summary==='string'?event.data.summary:typeof event.data.content==='string'?event.data.content:event.type==='unknown'?`Unclassified ${event.rawType} event preserved for diagnosis.`:`${event.type.replaceAll('_',' ')} processed from transcript.`}));}
