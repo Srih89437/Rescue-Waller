@@ -1,0 +1,4 @@
+export type IncidentStatus='detected'|'reconstructing'|'understanding'|'impact_analysis'|'repairing'|'verifying'|'resolved'|'failed'|'blocked';
+const transitions:Record<IncidentStatus,IncidentStatus[]>={detected:['reconstructing'],reconstructing:['understanding','failed'],understanding:['impact_analysis','repairing','failed'],impact_analysis:['repairing','failed'],repairing:['verifying','failed'],verifying:['resolved','failed'],resolved:[],failed:['repairing','blocked'],blocked:[]};
+export interface IncidentLifecycle{status:IncidentStatus;attempts:number}
+export function transitionIncident(state:IncidentLifecycle,next:IncidentStatus):IncidentLifecycle{if(!transitions[state.status].includes(next))throw new Error(`Invalid incident transition: ${state.status} → ${next}`);return{status:next,attempts:next==='repairing'&&state.status==='failed'?state.attempts+1:state.attempts};}

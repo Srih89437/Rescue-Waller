@@ -34,6 +34,10 @@ The system distinguishes four cases: known events are reduced; valid unknown eve
 
 This prepares a clean insertion point for a future format adapter. It does not claim that the Noon Curveball has arrived or that Entire Graph analysis has been performed.
 
+## Completion Foundations
+
+An explicit incident state machine validates repair and retry transitions. An in-process event bus tracks connection state and rejects duplicate events. Verification command configuration is allowlisted to `npm test` and `npm run build`; it does not execute transcript-provided commands. These foundations are tested, but a production transport and server-side verification runner are still pending.
+
 ## Known Limitations
 
 - The new transcript format is not implemented yet.

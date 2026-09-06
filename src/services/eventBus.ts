@@ -1,0 +1,3 @@
+import type { NormalizedEvent } from '../parser/types';
+export type ConnectionState='connecting'|'connected'|'disconnected'|'reconnecting'|'playback';
+export class EventBus { private seen=new Set<string>(); private listeners=new Set<(event:NormalizedEvent)=>void>(); state:ConnectionState='disconnected'; subscribe(listener:(event:NormalizedEvent)=>void){this.listeners.add(listener);return()=>this.listeners.delete(listener)} setConnection(state:ConnectionState){this.state=state} publish(event:NormalizedEvent){const id=event.messageId??`${event.sessionId}:${event.timestamp}:${event.rawType}`;if(this.seen.has(id))return false;this.seen.add(id);this.listeners.forEach(listener=>listener(event));return true} }

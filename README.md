@@ -44,6 +44,10 @@ npm run build
 
 Phase 2 supports the known original format, unknown-event preservation, malformed-record diagnostics, incomplete-session recovery, and state-driven playback. The Noon Curveball format, graph impact analysis, production websocket transport, and remote Entire checkpoint IDs remain intentionally unimplemented.
 
+## Completion foundations
+
+The repository now also includes a deterministic incident-transition model, a deduplicating in-process event bus with explicit connection states, and a strict verification command allowlist (`npm test`, `npm run build`). These are local foundations only: no transcript command is executed, no live backend transport is claimed, and command execution remains a later server-side integration step.
+
 ## Future Curveball work
 
 Add the requested new transcript adapter, broaden error recovery, then introduce actual Entire Graph impact analysis only when the Buildathon workflow requires it.
