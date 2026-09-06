@@ -1,0 +1,23 @@
+/* Small, global UI hardening layer kept separate from the generated theme file. */
+:focus-visible{outline:2px solid #9eb4ff;outline-offset:3px}
+button,input{font:inherit}
+button:disabled{cursor:not-allowed;opacity:.55}
+nav button{min-height:40px}
+.checkpoint-notice{margin:14px 0;padding:14px 16px;border-color:#665126;background:#211a0d;color:#e7d7ad}
+.checkpoint:before{content:'LIVE INTEGRATION PENDING - Entire hook approval is required; no checkpoint IDs are fabricated.';display:block;padding:12px 16px;border-bottom:1px solid #665126;background:#211a0d;color:#e7d7ad;font:11px 'DM Mono';line-height:1.5}
+.checkpoint-notice p{margin:8px 0 0;color:#bcae8c;line-height:1.6}
+.checkpoint-notice+.checkpoint{margin-top:0}
+.incident-meta span{overflow-wrap:anywhere}
+@media(max-width:580px){
+  .header-actions{gap:8px}
+  .header-actions .badge{font-size:9px}
+  .panel-head{flex-wrap:wrap}
+  .panel-head .primary{margin-left:auto}
+  .incident-item{flex-direction:column}
+  .incident-meta{text-align:left}
+  .agent-card{align-items:flex-start;flex-wrap:wrap}
+  .agent-state{width:100%;margin-left:58px}
+  .graph-query .controls,.verify-actions .controls{flex-direction:column}
+  .graph-query input{min-width:0;width:100%}
+  .controls button{width:100%}
+}
