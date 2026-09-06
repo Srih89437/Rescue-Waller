@@ -1,0 +1,10 @@
+import { describe, expect, it } from 'vitest';
+import transcript from './fixtures/original-transcript.jsonl?raw';
+import { parseJsonl } from './parser/parseJsonl';
+import { normalizeEvent } from './parser/normalizeEvent';
+import { buildSessionState } from './lifecycle/session';
+import { initialPlayback, advancePlayback } from './lifecycle/recovery';
+import { createCheckpointContext } from './checkpoint/checkpointContext';
+import { buildSummary } from './summary/buildSummary';
+const parsed=parseJsonl(transcript); const events=parsed.records.map(normalizeEvent); const state=buildSessionState(events);
+describe('Code Rescue foundations',()=>{it('parses original JSONL and reports malformed records',()=>{expect(parsed.errors).toEqual([]);expect(parsed.records).toHaveLength(11);expect(parseJsonl('{bad}').errors[0]).toMatch('Line 1');});it('normalizes raw events',()=>{expect(events[0]).toMatchObject({type:'session_started',sessionId:'btw-track3-demo-001',sourceFormat:'original-jsonl'});});it('constructs session state',()=>{expect(state.intent).toBe('Add coupon validation to checkout.');expect(state.filesChanged).toEqual(['src/checkout/apply_coupon.ts','tests/checkout/apply_coupon.test.ts']);expect(state.tests.overall).toBe('verified');});it('builds recovery summary',()=>{expect(buildSummary(state).testsPassed).toBe('8 / 8 targeted tests passed');});it('creates checkpoint context',()=>{expect(createCheckpointContext(state).currentState).toMatch('verified');});it('advances deterministic playback',()=>{const next=advancePlayback(initialPlayback(state),1);expect(next).toMatchObject({status:'complete',visibleSteps:1});});});

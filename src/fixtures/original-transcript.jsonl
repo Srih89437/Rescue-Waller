@@ -1,0 +1,11 @@
+{"type":"session_started","timestamp":"2026-09-06T09:42:01.000Z","session_id":"btw-track3-demo-001","agent":"AcmeCode 1.4.2","repository":"checkout-service","branch":"feature/add-coupon-validation"}
+{"type":"user_prompt","timestamp":"2026-09-06T09:42:02.000Z","session_id":"btw-track3-demo-001","content":"Add coupon validation to checkout."}
+{"type":"agent_response","timestamp":"2026-09-06T09:42:03.000Z","session_id":"btw-track3-demo-001","decision":"Expiry validation should take precedence when multiple coupon conditions are invalid."}
+{"type":"file_read","timestamp":"2026-09-06T09:42:04.000Z","session_id":"btw-track3-demo-001","path":"src/checkout/apply_coupon.ts"}
+{"type":"tool_call","timestamp":"2026-09-06T09:42:05.000Z","session_id":"btw-track3-demo-001","tool":"investigate_validation_order"}
+{"type":"file_changed","timestamp":"2026-09-06T09:42:06.000Z","session_id":"btw-track3-demo-001","path":"src/checkout/apply_coupon.ts"}
+{"type":"file_changed","timestamp":"2026-09-06T09:42:06.000Z","session_id":"btw-track3-demo-001","path":"tests/checkout/apply_coupon.test.ts"}
+{"type":"test_execution","timestamp":"2026-09-06T09:42:07.000Z","session_id":"btw-track3-demo-001","passed":8,"total":8,"regression":true,"success":true}
+{"type":"tool_result","timestamp":"2026-09-06T09:42:08.000Z","session_id":"btw-track3-demo-001","success":true}
+{"type":"checkpoint_created","timestamp":"2026-09-06T09:42:09.000Z","session_id":"btw-track3-demo-001"}
+{"type":"session_ended","timestamp":"2026-09-06T09:42:09.000Z","session_id":"btw-track3-demo-001","success":true}

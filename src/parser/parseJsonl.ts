@@ -1,0 +1,3 @@
+import type { RawRecord } from './types';
+export interface ParseResult { records: RawRecord[]; errors: string[] }
+export function parseJsonl(input: string): ParseResult { const records: RawRecord[] = []; const errors: string[] = []; input.split(/\r?\n/).forEach((line, index) => { if (!line.trim()) return; try { const value: unknown = JSON.parse(line); if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('record must be an object'); records.push(value as RawRecord); } catch (error) { errors.push(`Line ${index + 1}: ${error instanceof Error ? error.message : 'invalid JSON'}`); } }); return { records, errors }; }
